@@ -71,7 +71,7 @@ Cliente → WhatsApp → WAHA → ZapFlow IA → IA (OpenAI/OpenRouter) → Resp
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/zapflow-ia.git
+git clone https://github.com/ceruttgabriel0/zapflow-ia.git
 cd zapflow-ia
 ```
 
