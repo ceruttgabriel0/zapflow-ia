@@ -25,3 +25,6 @@ venv/
 
 # Docker
 *.env
+
+# Google service account
+service_account.json
