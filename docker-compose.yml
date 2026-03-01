@@ -1,0 +1,57 @@
+version: '3.8'
+
+networks:
+  whatsapp_ia_net:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: whatsapp_ia_redis
+    restart: always
+    networks:
+      - whatsapp_ia_net
+    volumes:
+      - redis_data:/data
+
+  db:
+    image: postgres:15-alpine
+    container_name: whatsapp_ia_db
+    restart: always
+    networks:
+      - whatsapp_ia_net
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-whatsapp_ia}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: whatsapp_ia_api
+    restart: always
+    networks:
+      - whatsapp_ia_net
+    extra_hosts:
+      - "host-gateway:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
+  redis_data:
