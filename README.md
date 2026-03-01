@@ -264,7 +264,6 @@ zapflow-ia/
 | `WAHA_API_KEY`                | API Key do WAHA                             |
 | `GOOGLE_SERVICE_ACCOUNT_FILE` | Caminho do JSON da service account Google   |
 
-> ⚠️ **Nunca suba o `.env` ou o `service_account.json` para o GitHub.**
 
 ---
 
